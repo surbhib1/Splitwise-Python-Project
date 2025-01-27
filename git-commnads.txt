@@ -1,0 +1,179 @@
+i# Git Commands for Pushing a Repository to GitHub
+
+
+1. Initialize a Git Repository
+[What it Does: Creates an empty Git repository in the current directory. It sets up a .git folder to track changes.]
+
+
+--->% git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+Initialized empty Git repository in /Users/macbookair/Desktop/python/Splitwise Python Project/.git/
+
+
+2. Add Files to the Staging Area
+[What it Does: Stages all changes (new files, modifications, deletions) in the current directory for the next commit.]
+
+
+---> % git add .
+
+**Stages a specific file (splitwise.py) for the next commit. This is useful when you want to commit only certain changes.
+
+---> % git add splitwise.py 
+
+3. Commit the Changes
+[What it Does: Saves the staged changes as a snapshot in the Git history.]
+
+[Output Explanation:
+master (root-commit) indicates that this is the first commit.
+1 file changed, 69 insertions(+) shows that one file was added with 69 lines of content.
+create mode 100644 splitwise.py indicates the file was created with default permissions.]
+
+
+---> % git commit -m "architecture developed"
+[master (root-commit) a844494] architecture developed
+ 1 file changed, 69 insertions(+)
+ create mode 100644 splitwise.py
+
+
+4. Rename the Default Branch
+[What it Does: Renames the current branch (default master) to main.]
+
+---> % git branch -M main
+
+5. Add a Remote Repository
+
+[What it Does: Links your local repository to a remote repository hosted on GitHub.]ss
+
+---> % git remote add origin https://github.com/surbhib1/Splitwise-Python-Project.git
+
+6. Push Changes to GitHub
+
+[What it Does: Attempts to upload the main branch to the origin remote repository.
+Error:
+Permission denied (publickey): This error occurs because GitHub requires SSH keys for authentication, and no valid SSH key was configured.]
+
+
+---> % git push -u origin main
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+
+7. Check Existing SSH Keys
+[What it Does: Lists the files in the ~/.ssh directory, which contains SSH keys.
+Output Explanation:
+Files like id_rsa and id_rsa.pub are your private and public SSH keys, respectively.]
+
+
+
+---> % ls -al ~/.ssh
+
+total 32
+drwx------   6 macbookair  staff   192 Jan  5 18:10 .
+drwxr-xr-x+ 30 macbookair  staff   960 Jan 27 21:15 ..
+-rw-------   1 macbookair  staff  3401 Jan  6 00:16 id_rsa
+-rw-r--r--   1 macbookair  staff   754 Jan  6 00:16 id_rsa.pub
+-rw-------   1 macbookair  staff  3404 Jan  5 18:10 known_hosts
+-rw-------   1 macbookair  staff  2668 Jan  5 18:10 known_hosts.old
+
+8. Generate a New SSH Key
+What it Does: Generates a new RSA SSH key with a 4096-bit encryption.
+
+
+---> % ssh-keygen -t rsa -b 4096 -C "surbhi.bhosale11@.com" 
+
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/macbookair/.ssh/id_rsa): 
+/Users/macbookair/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/macbookair/.ssh/id_rsa
+Your public key has been saved in /Users/macbookair/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:7Aw0p1GHOTbSiyFXCGw6wgqPOk4upFj6uZa9TKuZYoU surbhi.bhosale11@.com
+The key's randomart image is:
++---[RSA 4096]----+
+|   ... +oo.      |
+|    + =.B.       |
+|.  o o+=.+       |
+|o.o  ..*.        |
+|o+..  o S        |
+|oEo.   +         |
+|=+.o.   o        |
+|@.o*..           |
+|+BBo+.           |
++----[SHA256]-----+
+
+
+--->% Splitwise Python Project % ls -al ~/.ssh                                       
+
+total 32
+drwx------   6 macbookair  staff   192 Jan  5 18:10 .
+drwxr-xr-x+ 30 macbookair  staff   960 Jan 27 21:15 ..
+-rw-------   1 macbookair  staff  3389 Jan 27 21:26 id_rsa
+-rw-r--r--   1 macbookair  staff   747 Jan 27 21:26 id_rsa.pub
+-rw-------   1 macbookair  staff  3404 Jan  5 18:10 known_hosts
+-rw-------   1 macbookair  staff  2668 Jan  5 18:10 known_hosts.old
+
+
+9. Copy the Public Key
+[What it Does: Copies the contents of your public SSH key (id_rsa.pub) to the clipboard.
+Next Step: Add this key to your GitHub account.]
+
+
+
+---> % pbcopy < ~/.ssh/id_rsa.pub
+
+
+10. Test SSH Authentication
+What it Does: Tests the SSH connection to GitHub.
+
+
+
+---> % ssh -T git@github.com
+
+Hi surbhib1! You've successfully authenticated, but GitHub does not provide shell access.
+
+11. Update Remote Repository URL to SSH
+[What it Does: Changes the repository URL from HTTPS to SSH.]
+
+
+---> % git remote set-url origin git@github.com:surbhib1/Splitwise-Python-Project.git
+
+
+12. Push Changes Again
+[What it Does: Uploads the main branch to the remote repository.]
+
+
+---> % git push -u origin main
+
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 795 bytes | 795.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:surbhib1/Splitwise-Python-Project.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+[Summary of Steps
+Initialize the repository with git init.
+Stage and commit changes.
+Rename the branch to main.
+Link the repository to GitHub.
+Configure SSH keys to resolve permission issues.
+Push the changes after authentication.]
+
